@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>reCAPTCHA demo: Simple page</title>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+    
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    
+  </head>
+  <body>
+    <form action="#">
+      <div id="html_element"></div>
+      <br/>
+      <input type="button" value="Submit" onclick="post_data()">
+    </form>
+
+    <script>
+
+      var onloadCallback = function() {
+        grecaptcha.render('html_element', {
+          'sitekey' : '6Ld9T-AUAAAAAOLmsMrxoTFrT8T3HfUQvRqyOW5E',
+          'callback' : verifyCallback,
+        });
+      };
+
+
+      var response_key_ok = null;
+
+      var verifyCallback = function(response) {
+        response_key_ok = response;
+      };
+      
+      function post_data(){
+
+        alert(response_key_ok);
+
+        $.ajax({
+          dataType: "json",
+          url: "http://localhost:5000/sign-up",
+          data: {
+              key_data: response_key_ok
+          },
+          success: function(){
+            alert("Ok")  
+          }
+        });
+
+
+      }
+    
+    </script>
+
+
+
+  </body>
+</html>
